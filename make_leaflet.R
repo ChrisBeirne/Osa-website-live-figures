@@ -1,21 +1,16 @@
 #library(rgdal) 
 library(move) 
 library(dplyr)
-library(units)
-library(sf)
+library(plotly)
 library(viridis)
 library(kableExtra)
 library(lubridate)
-library(foreach)
 library(htmlwidgets)
 
-
-library(plotly)
-library(htmlwidgets)
 
 df <- data.frame(
-  x = c(1,2,1), 
-  y = c(1,2,1), 
+  x = c(1,2,1),
+  y = c(1,2,1),
   f = c(1,2,3)
 )
  m <- df %>%
@@ -27,7 +22,7 @@ df <- data.frame(
     mode = 'markers',
     marker = list(size = 20),
     showlegend = FALSE
-  ) %>% 
+  ) %>%
   animation_button(visible = TRUE) %>%
   onRender("
         function(el,x) {
@@ -37,12 +32,12 @@ df <- data.frame(
 saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
                        background = "white", knitrOptions = list())
 
-# # Import animal locations
-# # Import passcodes
+# Import animal locations
+# Import passcodes
 # MOVE_PASS <- Sys.getenv("MOVEBANK_PASSWORD")
 # MOVE_USE  <- Sys.getenv("MOVEBANK_USERNAME")
 # 
-# loginStored <- movebankLogin(username=MOVE_USE, 
+# loginStored <- movebankLogin(username=MOVE_USE,
 #                              password=MOVE_PASS)
 # 
 # # Get animals
@@ -67,21 +62,14 @@ saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
 # animals$timestamp_start <- ymd_hms(animals$timestamp_start)
 # animals$timestamp_end <- ymd_hms(animals$timestamp_end)
 # 
-# # Get last 2 weeks
-# t <- now("America/Costa_Rica")
-# start_t <- t-as.difftime(5,units='days')
-# start_tapir <- t-as.difftime(48,units='days')
-# 
+# # Get all the data
 # # Vultures
-# mov_dat <- getMovebankData(study=1573471517, login=loginStored,  removeDuplicatedTimestamps=TRUE,
-#                            timestamp_start=start_t)
+# mov_dat <- getMovebankData(study=1573471517, login=loginStored,  removeDuplicatedTimestamps=TRUE)
 # #OCelot
-# tmp <- getMovebankData(study=2526574641, login=loginStored,  removeDuplicatedTimestamps=TRUE,
-#                        timestamp_start=start_tapir)
+# tmp <- getMovebankData(study=2526574641, login=loginStored,  removeDuplicatedTimestamps=TRUE)
 # 
 # #Tapir
-# tmp2 <- getMovebankData(study=1954804459, login=loginStored,  removeDuplicatedTimestamps=TRUE,
-#                         timestamp_start=start_tapir)
+# tmp2 <- getMovebankData(study=1954804459, login=loginStored,  removeDuplicatedTimestamps=TRUE)
 # 
 # # Remove the obvious outlier
 # tmp2 <- tmp2[tmp2$location_lat>8,]
@@ -173,8 +161,8 @@ saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
 # 
 # m <- leaflet() %>%
 #   # Add a satellite image layer
-#   addProviderTiles(providers$CartoDB.VoyagerNoLabels, 
-#                    options = providerTileOptions(minZoom = 10, maxZoom = 13)) %>% 
+#   addProviderTiles(providers$CartoDB.VoyagerNoLabels,
+#                    options = providerTileOptions(minZoom = 10, maxZoom = 13)) %>%
 #                    setView(lng=-83.26358816666858, lat=8.708281742832918, zoom = 10)
 # 
 # m <- m %>%
@@ -183,21 +171,21 @@ saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
 #   addCircleMarkers(data = cams_2, color = "blue", group = "camera trap", weight=1,opacity=1, radius=1, popup="cameratraps") %>%
 #   addCircleMarkers(data = kids, color = "yellow", group = "kids club", weight=1,opacity=1, radius=1, popup="kids clubs")   %>%
 #   addCircleMarkers(data = road, color = "purple", group = "road survey", weight=1,opacity=1, radius=1, popup="road survey")   %>%
-#   addCircleMarkers(data = rest, color = "orange", group = "restoration", weight=1,opacity=1, radius=1, popup="restoration") %>% 
+#   addCircleMarkers(data = rest, color = "orange", group = "restoration", weight=1,opacity=1, radius=1, popup="restoration") %>%
 #   # Add the last location point for each animal
 #   addMarkers(lng=lastloc$location_long,
-#              lat=lastloc$location_lat, 
+#              lat=lastloc$location_lat,
 #              popup=lastloc$local_identifier,
-#              icon = iconSet[lastloc$icon], group="animals")   %>% 
+#              icon = iconSet[lastloc$icon], group="animals")   %>%
 #   addLayersControl(
 #     overlayGroups = c("property","restoration","camera trap","kids club", "road survey", "restoration", "animals"),
 #     options = layersControlOptions(collapsed = FALSE)
 #   ) %>%
-#   addFullscreenControl() %>% 
-#   addLegend(colors=c("pink", "blue", "yellow", "purple", "orange"), labels=c("OC property","camera trap","kids club", "road survey", "restoration partners"), opacity=1) %>% 
+#   addFullscreenControl() %>%
+#   addLegend(colors=c("pink", "blue", "yellow", "purple", "orange"), labels=c("OC property","camera trap","kids club", "road survey", "restoration partners"), opacity=1) %>%
 #   suspendScroll(hoverToWake = TRUE, wakeTime = 2000)
 # 
 # m
-#  
+# 
 # saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
 #            background = "white", knitrOptions = list())
