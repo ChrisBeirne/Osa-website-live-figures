@@ -29,7 +29,7 @@ df <- data.frame(
         function(el,x) {
           Plotly.animate(el);
         }")
-
+ 
 saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
                        background = "white", knitrOptions = list())
 
