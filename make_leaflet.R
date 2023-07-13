@@ -6,6 +6,7 @@ library(viridis)
 library(kableExtra)
 library(lubridate)
 library(htmlwidgets)
+library(MetBrewer)
 
 
 df <- data.frame(
@@ -32,8 +33,8 @@ df <- data.frame(
 saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
                        background = "white", knitrOptions = list())
 
-# Import animal locations
-# Import passcodes
+# # Import animal locations
+# # Import passcodes
 # MOVE_PASS <- Sys.getenv("MOVEBANK_PASSWORD")
 # MOVE_USE  <- Sys.getenv("MOVEBANK_USERNAME")
 # 
@@ -76,8 +77,6 @@ saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
 # 
 # mov_dat <- moveStack(mov_dat, tmp, tmp2)
 # 
-# 
-# 
 # #Add the names
 # mov_dat$name <- trackId(mov_dat)
 # 
@@ -85,8 +84,19 @@ saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
 # # Convert timezone
 # mov_dat$timestamp <- with_tz(timestamps(mov_dat), tz="America/Costa_Rica")
 # 
-# # Convery move stack to dataframe
+# # Convert move stack to dataframe
 # dat <- as.data.frame(mov_dat)
+# 
+# # Add common names
+# 
+# ##### Plot 1
+# df <- as.data.frame(table(animals$taxon_canonical_name))
+# df <- df[order(df$Freq),]
+# fig1 <- plot_ly(x = df$Var1, y = df$Freq, type = 'bar', 
+#                 marker = list(color = met.brewer(name="Archambault", nrow(df)), coloraxis="coloraxis"))
+# 
+# fig1
+# 
 # 
 # # Convert dat to costa rica time
 # dat$timestamp <- with_tz(dat$timestamp, tzone = "America/Costa_Rica")

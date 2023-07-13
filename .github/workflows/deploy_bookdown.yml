@@ -29,6 +29,8 @@ jobs:
         run: Rscript -e "install.packages('lubridate')"
       - name: Install html widgets
         run: Rscript -e "install.packages('htmlwidgets')"
+      - name: Install metbrewer
+        run: Rscript -e "install.packages('MetBrewer')"
       - name: Render Figure
         env: 
           GOOGLE_AUTHENTICATION_CREDENTIALS: ${{ secrets.GOOGLE_AUTHENTICATION_CREDENTIALS }}
