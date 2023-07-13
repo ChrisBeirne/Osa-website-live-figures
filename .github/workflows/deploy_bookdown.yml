@@ -27,10 +27,9 @@ jobs:
         run: Rscript -e "install.packages('kableExtra')"
       - name: Install lubridate
         run: Rscript -e "install.packages('lubridate')"
-      - name: Install raster
       - name: Install html widgets
         run: Rscript -e "install.packages('htmlwidgets')"
-      - name: Render Map
+      - name: Render Figure
         env: 
           GOOGLE_AUTHENTICATION_CREDENTIALS: ${{ secrets.GOOGLE_AUTHENTICATION_CREDENTIALS }}
           MOVEBANK_USERNAME: ${{ secrets.MOVEBANK_USERNAME }}
