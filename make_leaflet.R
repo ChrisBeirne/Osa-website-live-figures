@@ -33,126 +33,91 @@ df <- data.frame(
 saveWidget(m, "index.html" , selfcontained = TRUE, libdir = NULL,
                        background = "white", knitrOptions = list())
 
-# # Import animal locations
-# # Import passcodes
-# MOVE_PASS <- Sys.getenv("MOVEBANK_PASSWORD")
-# MOVE_USE  <- Sys.getenv("MOVEBANK_USERNAME")
-# 
-# loginStored <- movebankLogin(username=MOVE_USE,
-#                              password=MOVE_PASS)
-# 
-# # Get animals
-# # Vultures
-# animals <-getMovebankAnimals(study=1573471517,login=loginStored)
-# # Ocelot
-# tmp <-getMovebankAnimals(study=2526574641,login=loginStored)
-# # Tapir
-# tmp2 <- getMovebankAnimals(study=1954804459,login=loginStored)
-# animals <- rbind(animals, tmp,tmp2)
-# 
-# # For some reason they are duplicated
-# animals[duplicated(animals)==F,]
-# # They vary by the field "sensor_type_id"
-# animals <- animals[animals$sensor_type_id==653 & is.na(animals$sensor_type_id)==F,]
-# 
-# # Clean up the name
-# animals$animalName <- paste0(sub('\\_.*', '', animals$animalName), "_", sub('\\ .*', '', animals$taxon_canonical_name))
-# animals$name <- sub('\\_.*', '', animals$animalName)
-# 
-# # Sort date objects
-# animals$timestamp_start <- ymd_hms(animals$timestamp_start)
-# animals$timestamp_end <- ymd_hms(animals$timestamp_end)
-# 
-# # Get all the data
-# # Vultures
-# mov_dat <- getMovebankData(study=1573471517, login=loginStored,  removeDuplicatedTimestamps=TRUE)
-# #OCelot
-# tmp <- getMovebankData(study=2526574641, login=loginStored,  removeDuplicatedTimestamps=TRUE)
-# 
-# #Tapir
-# tmp2 <- getMovebankData(study=1954804459, login=loginStored,  removeDuplicatedTimestamps=TRUE)
-# 
-# # Remove the obvious outlier
-# tmp2 <- tmp2[tmp2$location_lat>8,]
-# 
-# mov_dat <- moveStack(mov_dat, tmp, tmp2)
-# 
-# #Add the names
-# mov_dat$name <- trackId(mov_dat)
-# 
-# 
-# # Convert timezone
-# mov_dat$timestamp <- with_tz(timestamps(mov_dat), tz="America/Costa_Rica")
-# 
-# # Convert move stack to dataframe
-# dat <- as.data.frame(mov_dat)
-# 
-# # Add common names
-# 
-# ##### Plot 1
-# df <- as.data.frame(table(animals$taxon_canonical_name))
-# df <- df[order(df$Freq),]
-# fig1 <- plot_ly(x = df$Var1, y = df$Freq, type = 'bar', 
-#                 marker = list(color = met.brewer(name="Archambault", nrow(df)), coloraxis="coloraxis"))
-# 
-# fig1
-# 
-# 
-# # Convert dat to costa rica time
-# dat$timestamp <- with_tz(dat$timestamp, tzone = "America/Costa_Rica")
-# 
-# # Add the location data
-# dat <- left_join(dat, animals[, c("tag_id", "animalName")])
-# # Sort the names out
-# 
-# dat$animalName <- sub('\\_.*', '', dat$animalName)
-# # Add in the taxonomic group
-# dat$animalName <- paste0(dat$animalName, "_", sub('\\ .*', '', dat$taxon_canonical_name))
-# 
-# 
-# 
-# 
-# # Get Icons
-# papa <- makeIcon(
-#   iconUrl = "https://raw.githubusercontent.com/ChrisBeirne/Osa-Conservation-Movement-Ecology-Daily-Report/main/icons/king_small.png",
-#   iconWidth = 19, iconHeight = 20,
-#   iconAnchorX = 22, iconAnchorY = 39)
-# 
-# aura <- makeIcon(
-#   iconUrl = "https://raw.githubusercontent.com/ChrisBeirne/Osa-Conservation-Movement-Ecology-Daily-Report/main/icons/turk_small.png",
-#   iconWidth = 19, iconHeight = 20,
-#   iconAnchorX = 22, iconAnchorY = 39)
-# 
-# mela <- makeIcon(
-#   iconUrl = "https://raw.githubusercontent.com/ChrisBeirne/Osa-Conservation-Movement-Ecology-Daily-Report/main/icons/yhv_small.png",
-#   iconWidth = 19, iconHeight = 20,
-#   iconAnchorX = 22, iconAnchorY = 39)
-# 
-# 
-# atra <- makeIcon(
-#   iconUrl = "https://raw.githubusercontent.com/ChrisBeirne/Osa-Conservation-Movement-Ecology-Daily-Report/main/icons/bhv_small.png",
-#   iconWidth = 19, iconHeight = 20,
-#   iconAnchorX = 22, iconAnchorY = 39)
-# 
-# 
-# pardalis <- makeIcon(
-#   iconUrl = "https://raw.githubusercontent.com/ChrisBeirne/Osa-Conservation-Movement-Ecology-Daily-Report/main/icons/ocelot.png",
-#   iconWidth = 19, iconHeight = 20,
-#   iconAnchorX = 22, iconAnchorY = 39)
-# 
-# bairdii <- makeIcon(
-#   iconUrl = "https://raw.githubusercontent.com/ChrisBeirne/Osa-Conservation-Movement-Ecology-Daily-Report/main/icons/tapir.png",
-#   iconWidth = 19, iconHeight = 20,
-#   iconAnchorX = 22, iconAnchorY = 39)
-# 
-# iconSet <- iconList(aura= aura,
-#                     papa =papa,
-#                     melambrotus = mela,
-#                     atratus = atra,
-#                     pardalis = pardalis,
-#                     bairdii = bairdii)
-# 
-# dat$icon <- sub(".*? ", "", dat$taxon_canonical_name)
+# Import animal locations
+# Import passcodes
+MOVE_PASS <- Sys.getenv("MOVEBANK_PASSWORD")
+MOVE_USE  <- Sys.getenv("MOVEBANK_USERNAME")
+
+loginStored <- movebankLogin(username=MOVE_USE,
+                             password=MOVE_PASS)
+
+# Get animals
+# Vultures
+animals <-getMovebankAnimals(study=1573471517,login=loginStored)
+# Ocelot
+tmp <-getMovebankAnimals(study=2526574641,login=loginStored)
+# Tapir
+tmp2 <- getMovebankAnimals(study=1954804459,login=loginStored)
+animals <- rbind(animals, tmp,tmp2)
+
+# For some reason they are duplicated
+animals[duplicated(animals)==F,]
+# They vary by the field "sensor_type_id"
+animals <- animals[animals$sensor_type_id==653 & is.na(animals$sensor_type_id)==F,]
+
+# Clean up the name
+animals$animalName <- paste0(sub('\\_.*', '', animals$animalName), "_", sub('\\ .*', '', animals$taxon_canonical_name))
+animals$name <- sub('\\_.*', '', animals$animalName)
+
+# Sort date objects
+animals$timestamp_start <- ymd_hms(animals$timestamp_start)
+animals$timestamp_end <- ymd_hms(animals$timestamp_end)
+
+# Get all the data
+# Vultures
+mov_dat <- getMovebankData(study=1573471517, login=loginStored,  removeDuplicatedTimestamps=TRUE)
+#OCelot
+tmp <- getMovebankData(study=2526574641, login=loginStored,  removeDuplicatedTimestamps=TRUE)
+
+#Tapir
+tmp2 <- getMovebankData(study=1954804459, login=loginStored,  removeDuplicatedTimestamps=TRUE)
+
+# Remove the obvious outlier
+tmp2 <- tmp2[tmp2$location_lat>8,]
+
+mov_dat <- moveStack(mov_dat, tmp, tmp2)
+
+#Add the names
+mov_dat$name <- trackId(mov_dat)
+
+
+# Convert timezone
+mov_dat$timestamp <- with_tz(timestamps(mov_dat), tz="America/Costa_Rica")
+
+# Convert move stack to dataframe
+dat <- as.data.frame(mov_dat)
+
+# Add common names
+dat$common_name <- NA
+dat$common_name[dat$taxon_canonical_name=="Leopardus pardalis"] <- "Ocelot"
+dat$common_name[dat$taxon_canonical_name=="Tapirus bairdii"] <- "Baird's Tapir"
+dat$common_name[dat$taxon_canonical_name=="Cathartes aura"] <- "Turkey vulture"
+dat$common_name[dat$taxon_canonical_name=="Cathartes melambrotus"] <- "Greater yellow-headed vulture"
+dat$common_name[dat$taxon_canonical_name=="Coragyps atratus"] <- "Black vulture"
+dat$common_name[dat$taxon_canonical_name=="Sarcoramphus papa"] <- "King vulture"
+
+animals$common_name <- NA
+animals$common_name[animals$taxon_canonical_name=="Leopardus pardalis"] <- "Ocelot"
+animals$common_name[animals$taxon_canonical_name=="Tapirus bairdii"] <- "Baird's Tapir"
+animals$common_name[animals$taxon_canonical_name=="Cathartes aura"] <- "Turkey vulture"
+animals$common_name[animals$taxon_canonical_name=="Cathartes melambrotus"] <- "Greater yellow-headed vulture"
+animals$common_name[animals$taxon_canonical_name=="Coragyps atratus"] <- "Black vulture"
+animals$common_name[animals$taxon_canonical_name=="Sarcoramphus papa"] <- "King vulture"
+
+
+##### Plot 1
+df <- as.data.frame(table(animals$common_name))
+df <- df[order(df$Freq),]
+fig1 <- plot_ly(x = df$Var1, y = df$Freq, type = 'bar',
+                marker = list(color = met.brewer(name="Archambault", nrow(df)), coloraxis="coloraxis"))
+
+fig1
+
+saveWidget(m, "speciesCount.html" , selfcontained = TRUE, libdir = NULL,
+           background = "white", knitrOptions = list())
+
+
+
 # 
 # # Add a country column
 # dat$country <- dat$location_lat<0
