@@ -111,9 +111,9 @@ df <- df[order(df$Freq),]
 fig1 <- plot_ly(x = df$Var1, y = df$Freq, type = 'bar',
                 marker = list(color = met.brewer(name="Archambault", nrow(df)), coloraxis="coloraxis"))
 
-fig1
 
-saveWidget(m, "speciesCount.html" , selfcontained = TRUE, libdir = NULL,
+
+saveWidget(fig1, "speciesCount.html" , selfcontained = TRUE, libdir = NULL,
            background = "white", knitrOptions = list())
 
 

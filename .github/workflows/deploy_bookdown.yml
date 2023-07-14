@@ -6,7 +6,7 @@ on:
 
 jobs:
   import-data:
-    name: Render-Map
+    name: Render-Figures
     runs-on:   macos-latest # ubuntu-latest #  macos USES 10 TIMES THE MINUTES
     steps:
       - uses: actions/checkout@v2
@@ -36,7 +36,7 @@ jobs:
           GOOGLE_AUTHENTICATION_CREDENTIALS: ${{ secrets.GOOGLE_AUTHENTICATION_CREDENTIALS }}
           MOVEBANK_USERNAME: ${{ secrets.MOVEBANK_USERNAME }}
           MOVEBANK_PASSWORD: ${{ secrets.MOVEBANK_PASSWORD }}
-        run: Rscript -e 'source("make_leaflet.R")'
+        run: Rscript -e 'source("make_figures.R")'
        
       - name: Commit results
         run: |
@@ -44,7 +44,7 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add index.html
           git add speciesCount.html
-          git commit -m 'Map updated' || echo "No changes to commit"
+          git commit -m 'Figures updated' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
         
         
